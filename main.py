@@ -132,9 +132,13 @@ def main():
     order_ids = fetch_payments(client, start_time, end_time, location_id)
     orders = fetch_orders(client, order_ids)
     line_items = summarize_line_items(orders)
+    if not line_items:
+        return
     email_owner_info(line_items)
     ticket_item_names = get_ticket_item_names(client)
     ticket_summary = filter_ticket_items(line_items, ticket_item_names)
+    if not ticket_summary:
+        return
     master_ticket_report(ticket_summary)
 
 
